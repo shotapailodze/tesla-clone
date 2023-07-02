@@ -2,9 +2,27 @@ import React from 'react'
 import styled from 'styled-components'
 import Fade from 'react-reveal/Fade';
 
+
 function Section({ title, description, backgroundImg, leftBtnText, rightBtnText }) {
+
+    const ScrollToNextSection = (event) => {
+        console.log(window)
+        const innerHeight = window.innerHeight
+        const scrollPos = window.scrollY
+        const currentSection = event.target.closest('div.SectionWrap')
+        const nextSection = currentSection.nextSibling
+
+        console.log(nextSection)
+        
+        window.scrollTo({
+            // top nextSection.getBoundingClientRect().top,
+            // top: Math.ceil(scrollPos + innerHeight),
+            animation: 'smooth',
+        })
+    }
+
   return (
-    <Wrap bgImage={backgroundImg}>
+    <Wrap className='SectionWrap' bgImage={backgroundImg}>
         <Fade bottom>
             <ItemText>
                 <h1>{title}</h1>
@@ -24,7 +42,9 @@ function Section({ title, description, backgroundImg, leftBtnText, rightBtnText 
                     } 
                 </ButtonGroup>
             </Fade>
-            <DownArrow src='../../public/images/down-arrow.svg'/>
+            <DownArrow 
+                onClick={ScrollToNextSection}
+                src='../../public/images/down-arrow.svg'/>
         </Buttons>
     </Wrap>
   )
@@ -38,6 +58,7 @@ const Wrap = styled.div`
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment:fixed;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -86,5 +107,6 @@ const DownArrow = styled.img`
 `
 
 const Buttons = styled.div`
-    
+    display: flex;
+    flex-direction: column;
 `
